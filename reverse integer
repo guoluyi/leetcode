@@ -1,0 +1,27 @@
+#include <cmath>
+
+class Solution {
+public:
+    int reverse(int x) {
+        if (fabs(x)<10) return x;
+        int res=0;
+        bool isNeg = false;
+        if (x<0){
+            isNeg =true;
+            x = fabs(x);
+        }
+        int div = 1;
+        while (x/div>=10){
+            div = div*10;
+        }
+        int div2 = 1;
+
+        while (div>0){
+            res = res + x/div*div2;
+            x %= div;
+            div /= 10;
+            div2 *=10;
+        }
+        return isNeg?-res:res;
+    }
+};
