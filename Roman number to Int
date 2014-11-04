@@ -1,0 +1,33 @@
+class Solution {
+    
+public:
+    int romanToInt(string s) {
+        int n = s.length();
+        int result = 0;
+        for(int i=0;i<n-1;i++){
+            if (matchRoman(s[i])>=matchRoman(s[i+1])){
+                result = result + matchRoman(s[i]);
+            }else{
+                result = result - matchRoman(s[i]);
+            }
+            
+        }
+        return result+matchRoman(s[s.length()-1]);
+        
+    }
+    int matchRoman(char x){
+        int res;
+        switch(x){
+            case 'I': res = 1; break;
+            case 'V': res = 5; break;
+            case 'X': res = 10; break;
+            case 'L': res = 50; break;
+            case 'C': res = 100;break;
+            case 'D': res = 500;break;
+            case 'M': res = 1000; break;
+            default: res =0; break;
+        
+        }
+        return res;
+    }
+};
