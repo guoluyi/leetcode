@@ -1,0 +1,31 @@
+#include <iostream>   // std::cout
+#include <string>     // std::string, std::to_string
+
+class Solution {
+public:
+    std::string countAndSay(int n) {
+        if (n < 1) return "";
+        if (n == 1) return "1";
+        std::string pre = countAndSay(n-1);
+        int preSize = pre.size();
+        if (preSize == 1) return std::to_string(1) + pre[0];
+        
+        int temp = (int)(pre[0]-'0');
+        int count = 1;
+        std::string res;
+        
+        for(int i = 1;i< preSize; i++){
+            if(temp == (int)(pre[i]-'0')){
+                count++;
+            }else{
+                res = res + std::to_string(count) + std::to_string(temp);
+                temp = (int)(pre[i]-'0');
+                count = 1;
+            }
+        }
+        res = res + std::to_string(count) + std::to_string(temp);
+
+        return res;
+    }
+    
+};
