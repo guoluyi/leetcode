@@ -1,0 +1,38 @@
+//这道题可以不这么麻烦 因为已经是sortedlist 所以只用和q->val比较就可以。
+//没改因为拓展性
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *deleteDuplicates(ListNode *head) {
+        if(head == NULL) return head;
+        
+        
+        vector<int> valList;
+        valList.push_back(head->val);
+        ListNode *p = head->next;
+        ListNode *q = head;
+        
+        while(p!=NULL){
+            bool exist = false;
+            for(int i=0;i<valList.size();i++){
+                if (valList[i] == p->val) exist = true;
+            }
+            if(exist){
+                p = p->next;
+                q->next = p;
+            }else{
+                valList.push_back(p->val);
+                q = p;
+                p = p->next;
+            }
+        }
+        return head;
+    }
+};
