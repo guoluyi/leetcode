@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string convert(string s, int nRows) {
+        if (nRows == 0 || s.size() == 0) return "";
+        if (nRows == 1) return s;
+        string res;
+        int descrepMax = 2*nRows-2;
+        for(int i=0;i<nRows;i++){
+            int descrep = 2*(nRows-i)-2;
+            if(descrep == 0) descrep = descrepMax;
+            int j = i;
+            while(j<s.size()){
+                res += s[j];
+                j = j+descrep;
+                if (descrep !=descrepMax) descrep = descrepMax - descrep;
+            }
+        }
+        return res;
+        
+    }
+};
