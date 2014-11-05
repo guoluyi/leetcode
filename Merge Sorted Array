@@ -1,0 +1,31 @@
+//精髓就是，从后往前填空
+
+class Solution {
+public:
+    void merge(int A[], int m, int B[], int n) {
+        if (n == 0) return;
+        int pointA = m-1;
+        int pointB = n-1;
+        for(int i = m+n-1 ; i>=0; i--){
+            if(pointB<0){
+                A[i] =  A[pointA];
+                pointA--;
+                continue;
+            };
+            if(pointA<0){
+                A[i] =  B[pointB];
+                pointB--;
+                continue;
+            };
+            if(A[pointA]>=B[pointB]){
+                
+                A[i] =  A[pointA];
+                pointA--;
+            }else{
+                A[i] =  B[pointB];
+                pointB--;
+            }
+            
+        }
+    }
+};
