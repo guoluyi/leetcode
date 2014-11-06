@@ -1,0 +1,56 @@
+//注意 1. a blength相等 2.结果为全0 
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        if(a.length() == 0 && b.length() == 0) return "";
+        int n = a.length()>b.length()?b.length():a.length();
+        int dist = a.length()>b.length()?a.length()-b.length():b.length()-a.length();
+        string res;
+        int c = 0;
+        int temp;
+        int isZero = 0;
+        if(n == a.length() ){
+            
+            for(int i = n-1; i>=0;i--){
+                temp = ((int)(a[i]-'0')+(int)(b[i+dist]-'0')+c)%2;
+                isZero |= temp;
+                c = ((int)(a[i]-'0')+(int)(b[i+dist]-'0')+c)/2;
+                res = to_string(temp) + res;
+            }
+            for(int j = dist-1; j>=0;j--)
+            {
+                temp = ((int)(b[j]-'0')+c)%2;
+                isZero |= temp;
+
+                c = ((int)(b[j]-'0')+c)/2;
+                res = to_string(temp) + res;
+
+            }
+
+        }else{
+        
+            for(int i = n-1; i>=0;i--){
+                temp = ((int)(a[i+dist]-'0')+(int)(b[i]-'0')+c)%2;
+                isZero |= temp;
+
+                c = ((int)(a[i+dist]-'0')+(int)(b[i]-'0')+c)/2;
+                res = to_string(temp) + res;
+            }
+            for(int j = dist-1; j>=0;j--)
+            {
+                temp = ((int)(a[j]-'0')+c)%2;
+                isZero |= temp;
+
+                c = ((int)(a[j]-'0')+c)/2;
+                res = to_string(temp) + res;
+
+            }
+        
+        }
+        
+        if (c) res = to_string(c) + res;
+        if (c == 0 && isZero == 0) return "0";
+        return res;
+        
+    }
+};
