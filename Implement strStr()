@@ -1,0 +1,21 @@
+public class Solution {
+    public int strStr(String haystack, String needle) {
+        if (haystack.length() == 0 && needle.length() == 0) return 0; // IMPORTANT
+        if (needle.length() == 0) return 0;//IMPORTANT
+        if (haystack.length() == 0 || needle.length()>haystack.length()) return -1;
+        int i = 0;
+        while(i<haystack.length())
+        {
+            if (i + needle.length() >  haystack.length() ) return -1;
+            if (needle.charAt(0) == haystack.charAt(i) ){
+                boolean equal = true;
+                for(int j = i; j< i+needle.length();j++ ){
+                    if(needle.charAt(j-i) != haystack.charAt(j)) equal = false;
+                }
+                if(equal) return i;else i++;
+            }else{i++;}
+        }
+        
+        return -1;
+    }
+}
