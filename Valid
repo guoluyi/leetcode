@@ -1,0 +1,44 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char> > &board) {
+        int temp;
+        int count[10] = {0};
+        for (int i = 0; i< 9; i++)
+        {
+            memset(count,0,40);
+            //row
+            for (int j = 0; j< 9; j++)
+            {
+                if(board[i][j] == '.') temp = 0;else temp = (int)(board[i][j] - '0');
+                if (count[temp] == 1 && temp != 0) return false; else count[temp] = 1;
+            }
+            //column
+            memset(count,0,40);
+            for (int j = 0; j< 9; j++)
+            {
+                if(board[j][i] == '.') temp = 0;else temp = (int)(board[j][i] - '0');
+                if (count[temp] == 1 && temp != 0) return false; else count[temp] = 1;
+            }
+            if (i % 3 == 0)
+            {
+                
+               
+                for (int j = 0; j< 9; j = j+3)
+                {
+                    memset(count,0,40);
+                    for(int k = i; k< i+3; k++)
+                    {
+                        for(int t = j; t<j+3;t++)
+                        {
+                            if(board[k][t] == '.') temp = 0;else temp = (int)(board[k][t] - '0');
+                            if (count[temp] == 1 && temp != 0) return false; else count[temp] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+
+        
+    }
+};
