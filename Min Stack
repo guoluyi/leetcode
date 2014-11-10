@@ -1,0 +1,26 @@
+class MinStack {
+public:
+    void push(int x) {
+        elements.push(x);
+        if(minStack.size() == 0 || x <= minStack.top()) minStack.push(x);
+    }
+
+    void pop() {
+        if(elements.size() == 0) return;
+        if(elements.top() == minStack.top()) minStack.pop();
+        elements.pop();
+    }
+
+    int top() {
+        if(elements.size()==0) return 0; //IMPORTANT!!!
+        return elements.top();
+    }
+
+    int getMin() {
+        if(minStack.empty()) return 0; //IMPORTANT!!!
+        return minStack.top();
+        
+    }
+  stack<int> elements;
+  stack<int> minStack;
+};
