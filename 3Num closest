@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int threeSumClosest(vector<int> &num, int target) {
+        int min = INT_MAX; 
+        int res;
+        int n = num.size();
+        if(n<3) return min;
+        vector<int> numcopy = num;
+        std::sort(numcopy.begin(), numcopy.end());  // sorted
+        
+        
+        for(int i = n-1;i>=2;i--)
+        {
+            if(i!=n-1 && numcopy[i] == numcopy[i+1]) continue; //delete duplicate
+            int left = 0;
+            int right = i-1;
+            while(left<right)
+            {
+                int sum = numcopy[left]+numcopy[right]+numcopy[i];
+                if(sum == target)
+                {
+                    min = 0;
+                    return sum;
+                }
+                if(sum<target)
+                {
+                    if(target-sum<min) {min = target-sum; res = sum;}
+                    left++;
+                }
+                if(sum>target) 
+                {
+                    if(sum-target<min) {min = sum -target;res = sum;}
+                    right--;
+                }
+            }
+            
+        }
+        return res;
+        
+    }
+    
+
+};
