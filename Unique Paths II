@@ -1,0 +1,57 @@
+/*
+Follow up for "Unique Paths":
+
+Now consider if some obstacles are added to the grids. How many unique paths would there be?
+
+An obstacle and empty space is marked as 1 and 0 respectively in the grid.
+
+For example,
+There is one obstacle in the middle of a 3x3 grid as illustrated below.
+
+[
+  [0,0,0],
+  [0,1,0],
+  [0,0,0]
+]
+The total number of unique paths is 2.
+
+*/
+
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int> > &obstacleGrid) {
+        
+        int n_row = obstacleGrid.size();
+        if(n_row==0) return 0;
+        int n_column = obstacleGrid[0].size();
+        if(n_column==0) return 0;
+        int res[n_column];
+        
+        if(obstacleGrid[0][0] == 1) return 0;
+        
+        res[0]=1;
+
+        for(int i = 1;i<n_column;i++)
+        {
+            if(obstacleGrid[0][i] == 1) res[i] = 0; else res[i] = res[i-1];
+            
+        }  //Initalization the first row
+        
+        if (n_row == 1) return res[n_column-1];
+        
+        for(int j = 1;j<n_row;j++)
+        {
+            for(int k = 0;k<n_column;k++)
+            {
+                if(k == 0) 
+                {
+                    if(obstacleGrid[j][k] == 1) res[k] = 0;else{;} //IMPOT!!!
+                }else{
+                    if(obstacleGrid[j][k] == 1) res[k] = 0;else res[k]=res[k-1]+res[k];
+                }
+            }
+        }
+        return res[n_column-1];
+        
+    }
+};
