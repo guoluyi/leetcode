@@ -1,0 +1,38 @@
+//夹逼
+class Solution {
+public:
+    vector<int> twoSum(vector<int> &numbers, int target) {
+        vector<int> res;
+        int n = numbers.size();
+        if(n==0||n==1) return res;
+        
+        vector<int> num = numbers;  
+        std::sort(num.begin(), num.end()); 
+        int left = 0;
+        int right = n-1;
+
+        while(left<right)
+        {
+            int sum = num[left]+num[right];
+            if(sum == target)
+            {
+                int index1 = -1,index2 =-1;
+                for(int i = 0;i<n;i++)
+                {
+                    if(numbers[i] == num[left]) {index1=i+1;break;}
+                }
+                for(int i = 0;i<n;i++)
+                {
+                    if(numbers[i] == num[right] && i != index1-1) {index2=i+1;break;}  //do not forget to plus 1
+                }
+                res.push_back(min(index1,index2));
+                res.push_back(max(index1,index2));
+                break;
+            }else{
+                if(sum>target) right--;else left++ ;
+            }
+        }
+        return res;
+        
+    }
+};
