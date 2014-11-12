@@ -1,0 +1,97 @@
+class Solution {
+public:
+    vector<vector<int> > fourSum(vector<int> &num, int target) {
+        
+        vector<vector<int> > res;
+        int n = num.size();
+        if(n<4) return res;
+        vector<int> numcopy = num;
+        std::sort(numcopy.begin(), numcopy.end());  // sorted
+        
+         vector<vector<int> > res3;
+         for(int i = n-1;i>=3;i--)
+        {
+            if(i!=n-1 && numcopy[i] == numcopy[i+1]) continue; //delete duplicate
+            res3.clear();
+            res3 = threeSum(numcopy, i-1, target-numcopy[i]);
+            if (res3.size() >0)
+            {
+                for(int j=0;j<res3.size();j++)
+                {
+                    res3[j].push_back(numcopy[i]);
+                    res.push_back(res3[j]);
+                }
+            }
+        }
+        return res;
+         
+        
+        
+        
+    }
+    
+    
+
+    vector<vector<int> > threeSum(vector<int> &num, int end, int target) {
+        vector<vector<int> > res;
+        int n = num.size();
+        if(n<3) return res;  //num is sorted
+       
+        vector<vector<int> > res2;
+        for(int i = end;i>=2;i--)
+        {
+            if(i!=end && num[i] == num[i+1]) continue; //delete duplicate
+            res2.clear();
+            res2 = twoSum(num, i-1, target-num[i]);
+            if (res2.size() >0)
+            {
+                for(int j=0;j<res2.size();j++)
+                {
+                    res2[j].push_back(num[i]);
+                    res.push_back(res2[j]);
+                }
+            }
+        }
+        return res;
+        
+    }
+    
+    vector<vector<int> > twoSum(vector<int> &num, int end, int target) {
+        vector<vector<int> > res;
+        int n = num.size();
+        if(n<2) return res;
+        
+        int left = 0;
+        int right = end;
+        
+        while(left<right)
+        {
+            int sum = num[left]+num[right];
+            if(sum == target)
+            {
+                bool exist = false;
+                if(res.size()>0)
+                {
+                    for(int j=0;j<res.size();j++)
+                    {
+                        if( res[j][0] == num[left] && res[j][0] == num[left]) exist = true;
+                    }
+                }
+                if(exist)
+                {
+                    left++;
+                    continue;
+                }
+                vector<int> resTemp;
+                resTemp.push_back(num[left]);
+                resTemp.push_back(num[right]);
+                res.push_back(resTemp);
+                left++;
+            }else{
+                if(sum>target) right--;else left++ ;
+            }
+        }
+        return res;
+        
+    }
+};
