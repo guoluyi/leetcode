@@ -1,0 +1,77 @@
+/**
+For example,
+Given
+
+         1
+        / \
+       2   5
+      / \   \
+     3   4   6
+The flattened tree should look like:
+   1
+    \
+     2
+      \
+       3
+        \
+         4
+          \
+           5
+            \
+             6
+
+**/
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void flatten(TreeNode *root) {
+        if(root == NULL)  return;
+        getList(root);
+
+        
+    }
+    
+    TreeNode* getList(TreeNode *root)
+    {
+        if (root->left==NULL && root->right==NULL) return root;
+        TreeNode* rHead = NULL;
+        if (root->right != NULL)  rHead = getList(root->right);
+        TreeNode* temp;
+        if (root->left != NULL)
+        {
+            TreeNode* lHead =  getList(root->left);
+            temp = lHead;
+            while(temp->right!=NULL)
+            {
+                temp = temp->right;
+            }
+            root->right = lHead;
+            lHead->left = NULL;  
+            root->left = NULL;     //!!!!
+            if(rHead!=NULL)
+            {
+                temp->right = rHead;
+                rHead->left = NULL;
+            }
+        }else{
+            if(rHead!=NULL)
+            {
+                root->right = rHead;
+                rHead->left =NULL; //!!!
+            }
+            
+        }
+        
+        return root;
+    }
+    
+};
