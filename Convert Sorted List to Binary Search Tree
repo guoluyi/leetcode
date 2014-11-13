@@ -1,0 +1,48 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//bottom up!!!
+class Solution {
+public:
+    
+    TreeNode *sortedListToBST(ListNode *head) {
+        if (head == NULL) return NULL;
+        int n =0;
+        ListNode *p = head;
+        while(p!=NULL)
+        {
+            n++;
+            p=p->next;
+        }
+        return genBST(head,0,n-1);
+    }
+    
+    
+    TreeNode *genBST(ListNode *&head, int start, int end)  //Here attention to &!!!!! we need to modify head
+    {
+        if (start > end) return NULL;
+        int mid = (start+end)/2;
+        TreeNode *leftChild = genBST(head,start,mid-1); //head may change during this process
+        TreeNode *parent = new TreeNode(head->val);
+        parent->left = leftChild;
+        head = head->next;
+        parent->right = genBST(head,mid+1,end);
+        return parent;
+     
+    }
+   
+};
