@@ -1,0 +1,76 @@
+/*
+Given two words (start and end), and a dictionary, find the length of shortest transformation sequence from start to end, such that:
+
+Only one letter can be changed at a time
+Each intermediate word must exist in the dictionary
+For example,
+
+Given:
+start = "hit"
+end = "cog"
+dict = ["hot","dot","dog","lot","log"]
+As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
+return its length 5.
+
+Note:
+Return 0 if there is no such transformation sequence.
+All words have the same length.
+All words contain only lowercase alphabetic characters.
+*/
+
+/**
+ * Solution: Graph BFS 
+ * 这道题想明白后非常简单，其实就是求最短路径问题，自然是BFS方法，其实问题可以用Graph来很好的解释。
+ * 顶点是每个字符串，如果相差一个字符，我们就可以连一条边，
+ * 一个字符串的边的数量最大值可能是 25 * L. 然后连线，形成Graph, 这样就是start - end的最短路径问题.
+ * 每次我们可以从start 出发，找adjacent string, 然后 enqueue, 下次再遍历下一层，这样第一次到end的时候，shortest = length + 1.
+ * 
+ * 这题目的特点:
+ * 1. dict来代替BFS 中 visited 标记，直接remove from dict 就代表遍历过了 或者 不存在
+ * 2. 都小写字母, 字符串长度固定. 问题简单化(如果不固定，就不是只换一个char这种简单情形了，会复杂的多，跟这题也会大不相同)
+ * 
+ * Time Complexity. 有点不太确定
+ * 最差情况: 对于每一个词, 查询应该是26*wordLength. 然后一直遍历完所有dict才找到答案. O(dict.size * 26*wordLength)
+ * Space 只需要一个Queue 存储邻接点，最大是dict的size, 因为dict不会是规模的，所以算是O(1)
+ */
+
+public class Solution {
+    public int ladderLength(String start, String end, Set<String> dict) {
+        if(start == null || end == null || dict.size() == 0) return 0;
+        Queue<String> queue = new LinkedList<String>();
+        queue.offer(start); // insert
+        dict.remove(start);
+        int length = 1;
+        while(!queue.isEmpty()){
+            int count = queue.size();
+            //check adjacent string
+            for(int i = 0;i<count;i++){
+                String current = queue.poll();//remove the head and return it
+                for(int j=0;j<current.length();j++){
+                    for(char c = 'a';c<='z';c++){
+                        if(c == current.charAt(j)){
+                            continue;
+                        }
+                        // find a different one
+                        String temp = replace(current,j,c);
+                        if(temp.equals(end)){
+                            return length+1;
+                        }
+                        if(dict.contains(temp)){
+                            queue.offer(temp);
+                            dict.remove(temp);
+                        }
+                    }
+                }
+            }
+            length++;
+        }
+    return 0;  
+    }
+    
+    private String replace(String s, int index, char c) {
+		char[] chars = s.toCharArray(); //string->char[]
+		chars[index] = c;  
+		return new String(chars); // char[] ->string
+	}
+}
