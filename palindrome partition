@@ -1,0 +1,40 @@
+//DFS
+
+public class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> result = new ArrayList<List<String>>();
+        List<String> subRes = new ArrayList<String>();
+        if(s == null || s.length() == 0) return result;
+        calRes(result,subRes,s);
+        return result;
+    }
+    private void calRes(List<List<String>> result,  List<String> subRes,String s)
+    {
+        if(s.length() == 0){
+            result.add(new ArrayList<String>(subRes));
+        }
+        int len = s.length();
+        for(int i = 1; i<=len;i++){
+            String subStr = s.substring(0,i);
+            if(isPalindrome(subStr)){
+                subRes.add(subStr);
+                String restSubStr = s.substring(i);
+                calRes(result,subRes,restSubStr);
+                subRes.remove(subRes.size()-1); // 随用随删除
+            }
+        }
+    }
+    
+    private boolean isPalindrome(String s){
+        int i = 0;
+        int j = s.length()-1;
+        while(i<j){
+            if(s.charAt(i) != s.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+}
