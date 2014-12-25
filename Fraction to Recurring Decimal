@@ -1,0 +1,51 @@
+/*
+Given two integers representing the numerator and denominator of a fraction, return the fraction in string format.
+
+If the fractional part is repeating, enclose the repeating part in parentheses.
+
+For example,
+
+Given numerator = 1, denominator = 2, return "0.5".
+Given numerator = 2, denominator = 1, return "2".
+Given numerator = 2, denominator = 3, return "0.(6)".
+*/
+
+
+public class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        if(numerator == 0) return "0";
+        if(denominator == 0) return "";
+        String result="";
+        if(numerator<0 ^ denominator<0) result+="-";
+        //use long because-- may overflow! for minus!
+        long num = numerator,
+        long den = denominator;
+        num = Math.abs(num);
+        den = Math.abs(den); //!!!
+        long res = num / den;
+        result+=Long.toString(res); //integer
+        long rem = num % den;//remainder
+        
+        if(rem==0) return result;
+        
+        rem = rem*10;
+        result+=".";
+        
+        Map<Long,Integer> map = new HashMap<Long,Integer>();
+        while(rem!=0){
+            if(map.containsKey(rem)){
+                int beg = map.get(rem);
+                String part1 = result.substring(0,beg);
+                String part2 = result.substring(beg,result.length());
+                result = part1+"("+part2+")";
+                return result;
+                
+            }
+            map.put(rem,result.length());
+            res = rem / den;  
+            result += String.valueOf(res);  
+            rem = (rem % den) * 10;  
+        }
+      return result;  
+    }
+}
