@@ -1,0 +1,37 @@
+public class Solution {
+    public String reverseWords(String s) {
+        if (s == null || s.length() == 0 || s.trim().equals("")) {
+			return "";
+		}
+		String[] arr = s.split(" ");
+		if (arr.length == 1) return arr[0].trim();
+		String res = "";
+		for (int i = arr.length - 1; i > 0; i--) {
+			if (arr[i].trim().equals("")) {
+				continue;
+			}
+			res = res + arr[i]+" ";
+		}
+		if(!arr[0].equals("")) res =res+arr[0]; else res = res.substring(0,res.length()-1);
+		return res;
+		
+    }
+}
+
+/*
+public String reverseWords(String s) { 
+StringBuilder reversed = new StringBuilder(); 
+int j = s.length();
+for (int i = s.length() - 1; i >= 0; i--) {
+      if (s.charAt(i) == ' ') {
+         j = i;
+      } else if (i == 0 || s.charAt(i - 1) == ' ') {
+         if (reversed.length() != 0) {
+            reversed.append(' ');
+         }
+         reversed.append(s.substring(i, j));
+      }
+}
+   return reversed.toString();
+}
+*/
