@@ -1,0 +1,60 @@
+/*
+Compare two version numbers version1 and version1.
+If version1 > version2 return 1, if version1 < version2 return -1, otherwise return 0.
+
+You may assume that the version strings are non-empty and contain only digits and the . character.
+The . character does not represent a decimal point and is used to separate number sequences.
+For instance, 2.5 is not "two and a half" or "half way to version three", it is the fifth second-level revision of the second first-level revision.
+
+Here is an example of version numbers ordering:
+
+0.1 < 1.1 < 1.2 < 13.37
+*/
+
+public class Solution {
+     public int compareVersion(String version1, String version2) {
+	        if(version1 == null || version1.isEmpty() || version2 == null || version2.isEmpty()) return 0;
+	        List<String> list1 = new ArrayList<String>(Arrays.asList(version1.split("\\.")));
+	        List<String> list2 = new ArrayList<String>(Arrays.asList(version2.split("\\.")));
+	        int len1 = list1.size();
+	        int len2 = list2.size();
+	        System.out.println(list1+"\n"+list2);
+	        // delete 0
+	        int temp = len1-1;
+	        while(temp>=0){
+	            if(Integer.parseInt(list1.get(temp))==0){
+	            	list1.remove(temp);
+	                len1--;
+	                temp--;
+	            }else{
+	                break;
+	            }
+	        }
+	        temp = len2-1;
+	        while(temp>=0){
+	            if(Integer.parseInt(list2.get(temp))==0){  //!!!!
+	                list2.remove(temp);
+	                len2--;
+	                temp--;
+	            }else{
+	                break;
+	            }
+	        }
+	        //compare
+	        int len = len1>len2?len1:len2;
+	        int i = 0;
+
+	        while(i<len){
+	            if(i == len1 && i == len2) return 0;
+	            if(i == len1 && i < len2) return -1;
+	            if(i == len2 && i < len1) return 1;
+	            int ele1 = Integer.parseInt(list1.get(i));
+	            int ele2 = Integer.parseInt(list2.get(i));
+	            if(ele1>ele2) return 1;
+	            if(ele1<ele2) return -1;
+	            i++;
+	        }
+	        return 0;
+	 
+	    }
+}
