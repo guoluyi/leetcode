@@ -1,0 +1,39 @@
+public class Solution {
+    public void nextPermutation(int[] num) {
+        if(num == null||num.length<2) return;
+        int index1 = 0; //(1)
+        int index2 = 0;
+        //from right to left, find first that violates decresing -- (1)
+        for(int i = num.length-1;i>0;i--){
+            if(num[i-1]>=num[i]) continue;
+            index1 = i-1;
+            //from right to left, find first that larger than num[index1]
+            for(int k = num.length-1;k>index1;k--){
+                if(num[k]>num[index1]){
+                    index2 = k;
+                    break;
+                } 
+            }
+            break;
+        }
+        //swap index1 and index2
+        int temp = num[index1];
+        num[index1] = num[index2];
+        num[index2] =temp;
+        //reverse all right of index1
+        int l = index1+1;
+        int r = num.length-1;
+        if(index1 == 0 && index2 == 0){ // like 321 to 123
+            l = index1;
+        }
+        
+        while(l<r){
+            int tempSwap = num[l];
+            num[l] = num[r];
+            num[r] = tempSwap;
+            l++;
+            r--;
+        }
+
+    }
+}
