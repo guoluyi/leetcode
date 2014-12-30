@@ -1,0 +1,83 @@
+/*
+OJ's undirected graph serialization:
+Nodes are labeled uniquely.
+
+We use # as a separator for each node, and , as a separator for node label and each neighbor of the node.
+As an example, consider the serialized graph {0,1,2#1,2#2,2}.
+
+The graph has a total of three nodes, and therefore contains three parts as separated by #.
+
+First node is labeled as 0. Connect node 0 to both nodes 1 and 2.
+Second node is labeled as 1. Connect node 1 to node 2.
+Third node is labeled as 2. Connect node 2 to node 2 (itself), thus forming a self-cycle.
+Visually, the graph looks like the following:
+
+       1
+      / \
+     /   \
+    0 --- 2
+         / \
+         \_/
+*/
+
+/**
+ * Definition for undirected graph.
+ * class UndirectedGraphNode {
+ *     int label;
+ *     List<UndirectedGraphNode> neighbors;
+ *     UndirectedGraphNode(int x) { label = x; neighbors = new ArrayList<UndirectedGraphNode>(); }
+ * };
+ */
+public class Solution {
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null) return null;
+        LinkedList<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode>();
+        HashMap<UndirectedGraphNode,UndirectedGraphNode> map= new HashMap<UndirectedGraphNode,UndirectedGraphNode>();
+        UndirectedGraphNode newNode = new UndirectedGraphNode(node.label);
+        map.put(node,newNode);
+        queue.add(node);
+        while(!queue.isEmpty()){
+            UndirectedGraphNode curNode = queue.poll();
+            for(UndirectedGraphNode neighbor:curNode.neighbors){
+                if(!map.containsKey(neighbor)){
+                    queue.add(neighbor);
+                    UndirectedGraphNode newNeighbor = new UndirectedGraphNode(neighbor.label);
+                    map.put(neighbor, newNeighbor);
+                    
+                }
+                map.get(curNode).neighbors.add(map.get(neighbor));
+            }
+            
+        }
+        return newNode;
+        
+    }
+}
+
+/*
+public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+ 2         if(node == null)
+ 3             return null;
+ 4             
+ 5         HashMap<UndirectedGraphNode, UndirectedGraphNode> hm = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
+ 6         UndirectedGraphNode head = new UndirectedGraphNode(node.label);
+ 7         hm.put(node, head);
+ 8         
+ 9         DFS(hm, node);//DFS
+10         return head;
+11     }
+12     public void DFS(HashMap<UndirectedGraphNode, UndirectedGraphNode> hm, UndirectedGraphNode node){
+13         if(node == null)
+14             return;
+15             
+16         for(UndirectedGraphNode aneighbor: node.neighbors){ 
+17             if(!hm.containsKey(aneighbor)){
+18                 UndirectedGraphNode newneighbor = new UndirectedGraphNode(aneighbor.label);
+19                 hm.put(aneighbor, newneighbor);
+20                 DFS(hm, aneighbor);//DFS
+21             }
+22             hm.get(node).neighbors.add(hm.get(aneighbor));
+23         }
+24     }
+
+*/
