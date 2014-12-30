@@ -1,0 +1,42 @@
+public class Solution {
+    public String intToRoman(int num) {
+        int digit = 1000;
+        ArrayList<Integer> digits = new ArrayList<Integer>();
+        while(digit>0){
+            int d = num / digit;
+            digits.add(d);
+            num = num % digit;
+            digit = digit/10;
+        }
+        String res = convert(digits.get(0),'M',' ',' ')
+                    +convert(digits.get(1),'C','D','M')  // 100 500 1000
+                    +convert(digits.get(2),'X','L','C')  // 10 50 100
+                    +convert(digits.get(3),'I','V','X'); // 1 5 10
+        return res;
+        
+    }
+    private String convert(int digit, char one, char five, char ten){
+        StringBuilder res = new StringBuilder();
+        switch(digit){
+            case 9: res.append(one); res.append(ten); break;
+            case 8:
+            case 7:
+            case 6:
+            case 5: res.append(five);
+                    for(int i = 5;i<digit;i++){
+                        res.append(one);
+                    }
+                    break;
+            case 4: res.append(one);res.append(five); break;
+            case 3: 
+            case 2:
+            case 1: res.append(one);
+                    for(int i = 1;i<digit;i++){
+                        res.append(one);
+                    }
+                    break;
+            default: break;
+        }
+        return res.toString();
+    }
+}
