@@ -1,0 +1,65 @@
+/*
+Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+
+For example,
+If n = 4 and k = 2, a solution is:
+
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+*/
+public class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> resSub = new ArrayList<Integer>();
+        if(n<1 || k<1 || k>n) return res;
+        helper(res,resSub,n,k);
+        return res;
+    }
+
+    private void helper(List<List<Integer>> res, List<Integer> resSub, int n, int k){
+        if(resSub.size()==k){
+            res.add(new ArrayList<Integer>(resSub));
+            return;
+        }
+        for(int i = n; i>=1; i--){
+            if(resSub.size() == 0){
+                resSub.add(i);
+                helper(res,resSub,n,k);
+                resSub.remove(resSub.size()-1);
+            }else{
+                if(i>resSub.get(resSub.size()-1)){
+                    resSub.add(i);
+                    helper(res,resSub,n,k);
+                    resSub.remove(resSub.size()-1);
+                }
+            }
+            
+        }
+        
+    }
+}
+
+/*
+public void helper(int n, int k, ArrayList<ArrayList<Integer>> combSet, ArrayList<Integer> comb, int start){  
+        // one possible combinition constructured  
+        if(comb.size() == k){  
+            combSet.add(new ArrayList<Integer> (comb));  
+            return;  
+        }  
+          
+        else{  
+            for(int i=start; i<=n; i++){// try each possibility number in current position  
+                comb.add(i);  
+                helper(n, k, combSet, comb, i+1); // after selecting number for current position, process next position  
+                comb.remove(comb.size()-1); // clear the current position to try next possible number  
+            }  
+        }  
+    }  
+}  
+*/
