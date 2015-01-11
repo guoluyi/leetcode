@@ -1,0 +1,25 @@
+public class Solution {
+    public int candy(int[] ratings) {
+        if(ratings==null || ratings.length==0) return 0;
+        int[] num = new int[ratings.length];
+        num[0]=1;
+        for(int i =1;i<num.length;i++){
+            if(ratings[i]>ratings[i-1]){
+                num[i] = num[i-1]+1;
+            }
+            else{
+                num[i] = 1;
+            }
+        }
+        int res = num[num.length-1];
+        for(int i =num.length-2;i>=0;i--){
+            int cur =1;
+            if(ratings[i]>ratings[i+1]){
+                cur = num[i+1]+1;
+            }
+            res = res+ Math.max(num[i],cur);
+            num[i] = cur;
+        }
+        return res;
+    }
+}
